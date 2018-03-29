@@ -200,14 +200,14 @@ def docker_build_inside_image( def build_image, compiler_data compiler_args, doc
     stage( "Test ${compiler_args.compiler_name} ${compiler_args.build_config}" )
     {
       // Cap the maximum amount of testing to be a few hours; assume failure if the time limit is hit
-      timeout(time: 1, unit: 'HOURS')
+      timeout(time: 2, unit: 'HOURS')
       {
         if(isJobStartedByTimer())
         {
           sh """#!/usr/bin/env bash
                 set -x
                 cd ${paths.project_build_prefix}/build/release/clients/staging
-                LD_LIBRARY_PATH=/opt/rocm/hcc/lib ./rocblas-test${build_type_postfix} --gtest_filter=*daily* --gtest_output=xml --gtest_color=yes
+                LD_LIBRARY_PATH=/opt/rocm/hcc/lib ./rocblas-test${build_type_postfix} --gtest_output=xml --gtest_color=yes --gtest_filter=*daily*
             """
           junit "${paths.project_build_prefix}/build/release/clients/staging/*.xml"
         }
@@ -217,7 +217,7 @@ def docker_build_inside_image( def build_image, compiler_data compiler_args, doc
                 set -x
                 cd ${paths.project_build_prefix}/build/release/clients/staging
                 LD_LIBRARY_PATH=/opt/rocm/hcc/lib ./example-sscal${build_type_postfix}
-                LD_LIBRARY_PATH=/opt/rocm/hcc/lib ./rocblas-test${build_type_postfix} --gtest_filter=*checkin* --gtest_output=xml --gtest_color=yes
+                LD_LIBRARY_PATH=/opt/rocm/hcc/lib ./rocblas-test${build_type_postfix} --gtest_output=xml --gtest_color=yes  #--gtest_filter=*checkin* 
             """
           junit "${paths.project_build_prefix}/build/release/clients/staging/*.xml"
         }
