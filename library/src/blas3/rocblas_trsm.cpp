@@ -861,7 +861,7 @@ rocblas_status rocblas_trsm_template(rocblas_handle handle,
                                    ldb * sizeof(T),
                                    (T*)X.get(),
                                    ldx * sizeof(T),
-                                   ldx * sizeof(T),
+                                   m * sizeof(T),
                                    n,
                                    hipMemcpyDeviceToDevice)); // TODO: optimized it with copy kernel
 
