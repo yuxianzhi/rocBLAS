@@ -16,7 +16,7 @@
 
 #define A(ii, jj) (A + (ii) + (jj)*lda)
 #define B(ii, jj) (B + (ii) + (jj)*ldb)
-#define X(ii, jj) (X + (ii) + (jj)*ldb)
+#define X(ii, jj) (X + (ii) + (jj)*ldx)
 #define invA(ii) (invA + (ii)*BLOCK)
 
 /* ===============left==================================================== */
@@ -914,7 +914,7 @@ extern "C" rocblas_status rocblas_dtrsm(rocblas_handle handle,
                                         double* B,
                                         rocblas_int ldb)
 {
-
+//    printf("dtrsm version1\n");
     // shared memory usuage is (128/2)^2 * sizeof(float) = 32K. LDS is 64K per CU. Theoretically u
     // can use all 64K, but in practice no.
     return rocblas_trsm_template<double, DTRSM_BLOCK>(
